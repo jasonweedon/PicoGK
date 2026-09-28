@@ -602,7 +602,7 @@ namespace PicoGK
         // Define delegates for the callback functions
         [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         public delegate void InfoCallback(  string  strMessage,
-                                            bool    bFatalError);
+                                            [MarshalAs(UnmanagedType.I1)] bool    bFatalError);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate void UpdateCallback(    IntPtr          hViewer,
@@ -621,10 +621,10 @@ namespace PicoGK
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate void MouseMovedCallback(    IntPtr      poViewer,
                                                     in Vector2  vecMousePos,
-                                                    bool        bShift,
-                                                    bool        bCtrl,
-                                                    bool        bAlt,
-                                                    bool        bCmd);
+                                                    [MarshalAs(UnmanagedType.I1)] bool        bShift,
+                                                    [MarshalAs(UnmanagedType.I1)] bool        bCtrl,
+                                                    [MarshalAs(UnmanagedType.I1)] bool        bAlt,
+                                                    [MarshalAs(UnmanagedType.I1)] bool        bCmd);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate void MouseButtonCallback(   IntPtr      hViewer,
@@ -637,10 +637,10 @@ namespace PicoGK
         public delegate void ScrollWheelCallback(   IntPtr      hViewer,
                                                     in Vector2  vecScrollWheel,
                                                     in Vector2  vecMousePos,
-                                                    bool        bShift,
-                                                    bool        bCtrl,
-                                                    bool        bAlt,
-                                                    bool        bCmd);
+                                                    [MarshalAs(UnmanagedType.I1)] bool        bShift,
+                                                    [MarshalAs(UnmanagedType.I1)] bool        bCtrl,
+                                                    [MarshalAs(UnmanagedType.I1)] bool        bAlt,
+                                                    [MarshalAs(UnmanagedType.I1)] bool        bCmd);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate void WindowSizelCallback(   IntPtr hViewer,
@@ -673,13 +673,11 @@ namespace PicoGK
         private static extern bool _bPoll(IntPtr hThis);
 
         [DllImport(Config.strPicoGKLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Viewer_RequestScreenShot")]
-        [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool _RequestScreenShot(  IntPtr hThis,
+        private static extern void _RequestScreenShot(  IntPtr hThis,
                                                         string strScreenShotPath);
 
         [DllImport(Config.strPicoGKLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Viewer_EnableExperimental")]
-        [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool _EnableExperimental( IntPtr hThis,
+        private static extern void _EnableExperimental( IntPtr hThis,
                                                         [MarshalAs(UnmanagedType.I1)] bool bEnable);                                            
 
         [DllImport(Config.strPicoGKLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Viewer_bLoadLightSetup")]
@@ -1142,8 +1140,7 @@ namespace PicoGK
                                                 ref float           fValue);
 
         [DllImport(Config.strPicoGKLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ScalarField_RemoveValue")]
-        [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool _RemoveValue(    LibHandle           hLib,
+        private static extern void _RemoveValue(    LibHandle           hLib,
                                                     ScalarFieldHandle   hThis,
                                                     in  Vector3         vecPosition);
 
@@ -1247,8 +1244,7 @@ namespace PicoGK
                                                  ref Vector3 vecValue);
 
         [DllImport(Config.strPicoGKLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "VectorField_RemoveValue")]
-        [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool _RemoveValue(    LibHandle  hLib,
+        private static extern void _RemoveValue(    LibHandle  hLib,
                                                     VectorFieldHandle  hThis,
                                                     in  Vector3 vecPosition);
 
